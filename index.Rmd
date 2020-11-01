@@ -1,5 +1,7 @@
 ---
 title: "IODS course project"
+author: "Pinky Dutta"
+
 output:
   html_document:
     theme: cosmo

@@ -1,13 +1,71 @@
-# Insert chapter 2 title here
+# Chapter 2: Regression Analysis
 
-*Describe the work you have done this week and summarize your learning.*
-
-- Describe your work and results clearly. 
-- Assume the reader has an introductory course level understanding of writing and reading R code as well as statistical methods.
-- Assume the reader has no previous knowledge of your data or the more advanced methods you are using.
+### About the data
+  In this exercise we are going to analyze student's attitude towards statistics, based on the survey conducted in 2014. The initial survey was conducted in Finnish and was measured on the [Likert Scale][1](1-5).
+  
+  For the analysis, we convert the original data to a tabular format where each column represents questions and rows contain individual response from the participants.
+  The items of the central measure are named so that the connections to the corresponding dimensions (Deep/SUrface/STrategic) can be easily seen.
+  The analysis will be carried across 7 variables: "age", "gender", "attitude", "deep", "strategic", "surface" and "points" distributed in 7 columns and on 166 student observations.
+  
+  More information on data can be found [here][2].
+  
+  [1]:https://en.wikipedia.org/wiki/Likert_scale
+  [2]:https://www.mv.helsinki.fi/home/kvehkala/JYTmooc/JYTOPKYS3-meta.txt
 
 ```{r}
 date()
 ```
 
-Here we go again...
+##### *Before we beging (setup):*
+
+```{r}
+# Setting up working directory of R session into IODS project folder
+setwd("~/Workspace/r-studio-projects/IODS-project")
+
+#read data into memory
+students2014 <- read.table("./Data/learning2020.table", header=TRUE)
+
+#Structure of the data
+str(students2014)
+
+#Dimension of the data
+dim(students2014)
+
+library(GGally)
+library(ggplot2)
+
+```
+
+
+#### **Overview of data (in graph form)**
+
+```{r}
+
+p <- ggpairs(students2014, mapping = aes(), lower = list(combo = wrap("facethist", bins = 20)))
+p
+
+```
+
+
+#### **Regression analysis across *age - deep - exam points* **
+
+```{r}
+
+g1 <- ggplot(students2014, aes(x = deep, y = Points, col = Age))
+g2 <- g1 + geom_point()
+g3 <- g2 + geom_smooth(method = "lm")
+g3
+
+```
+
+
+#### **Diagnostic report - Residual vs Fitted values, Normal QQ-plot and Residuals vs Leverage**
+
+```{r}
+
+my_model <- lm(Points ~ Age + deep, data = students2014)
+
+summary(my_model)
+
+
+```

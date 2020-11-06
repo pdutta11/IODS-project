@@ -32,7 +32,7 @@ strategic_columns <- select(lrn14, one_of(strategic_questions))
 lrn14$stra <- rowMeans(strategic_columns)
 
 # only select the required columns from the whole lrn14 data
-col_sel <- c("gender","Age","Attitude", "deep", "stra", "surf", "Points", "genderN")
+col_sel <- c("gender","Age","Attitude", "deep", "stra", "surf", "Points")
 
 ## select the 'col_sel' to create a new dataset
 learning2014 <- select(lrn14, one_of(col_sel))
@@ -53,3 +53,4 @@ write.table(learning2014, "./Data/learning2020.table", append=FALSE)
 # verify if we are able to read the file back
 lrn2020 <- read.table("./Data/learning2020.table", header=TRUE)
 str(lrn2020) # expected 166 obs of 7 vars
+
